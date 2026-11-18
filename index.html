@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0B0F0D">
+<title>Memorija – besplatna igrica pamćenja | WebGlow Studio</title>
+<meta name="description" content="Memorija je mala besplatna igrica u pregledaču: otvaraj parove kartica kroz 6 nivoa, prati poteze i vreme. Napravio WebGlow Studio iz Beograda.">
+<meta name="keywords" content="memorija, igrica pamćenja, memory, besplatna igrica, WebGlow Studio">
+<meta name="author" content="WebGlow Studio">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://webglowstudio.github.io/Memorija/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sr_RS">
+<meta property="og:site_name" content="WebGlow Studio">
+<meta property="og:title" content="Memorija – besplatna igrica pamćenja | WebGlow Studio">
+<meta property="og:description" content="Otvaraj parove kartica kroz 6 nivoa, sakupljaj zvezdice i obori svoj rekord. Napravio WebGlow Studio.">
+<meta property="og:url" content="https://webglowstudio.github.io/Memorija/">
+<meta property="og:image" content="https://webglowstudio.github.io/Memorija/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Memorija – igrica WebGlow Studija">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Memorija – besplatna igrica pamćenja">
+<meta name="twitter:description" content="Otvaraj parove kartica kroz 6 nivoa. Napravio WebGlow Studio.">
+<meta name="twitter:image" content="https://webglowstudio.github.io/Memorija/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"VideoGame","name":"Memorija","url":"https://webglowstudio.github.io/Memorija/","inLanguage":"sr","description":"Mala besplatna igrica pamćenja u pregledaču: otvaraj parove kartica kroz 6 nivoa.","gamePlatform":"Web browser","genre":"Memory","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"author":{"@type":"Organization","name":"WebGlow Studio","url":"https://webglowstudio.github.io/Webglowstudioportfolio/"}}
+</script>
+</head>
+<body>
+<div id="app">
+  <header class="chrome">
+    <div class="brand">
+      <img src="favicon.svg" width="28" height="28" alt="">
+      <span>Memorija</span>
+    </div>
+    <button type="button" id="btn-mute" class="icon-btn" aria-pressed="false" aria-label="Utišaj zvuk" title="Zvuk">
+      <svg id="icon-on" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 9v6h3l5 4V5L7 9H4zm11.5 3a3.5 3.5 0 0 0-1.8-3.1v6.2A3.5 3.5 0 0 0 15.5 12zM14 4.2v1.7a6.5 6.5 0 0 1 0 12.2v1.7a8.2 8.2 0 0 0 0-15.6z"/></svg>
+      <svg id="icon-off" viewBox="0 0 24 24" width="22" height="22" hidden aria-hidden="true"><path fill="currentColor" d="M4 9v6h3l5 4V5L7 9H4zm16.5 3 2-2-1.1-1.1-2 2-2-2-1.1 1.1 2 2-2 2 1.1 1.1 2-2 2 2 1.1-1.1-2-2z"/></svg>
+    </button>
+  </header>
+
+  <div id="stage">
+    <div id="hud" hidden>
+      <div class="hud-left">
+        <span id="hud-level">Nivo 1</span>
+      </div>
+      <div class="hud-right">
+        <span id="hud-moves">Potezi 0</span>
+        <span id="hud-time">0:00</span>
+        <button type="button" id="btn-menu" class="text-btn">Meni</button>
+      </div>
+    </div>
+
+    <div id="board-wrap" class="board-wrap" hidden><div id="board" class="board" role="group" aria-label="Karte"></div></div>
+
+    <section id="screen-title" class="screen active" aria-labelledby="t-title">
+      <p class="eyebrow">WebGlow Studio</p>
+      <h1 id="t-title">Memorija</h1>
+      <p class="lead">Otvori dve karte. Ako su iste, ostaju otvorene. Prođi svih šest nivoa i sakupi zvezdice.</p>
+      <div class="preview" aria-hidden="true">
+        <span>⭐</span><span>🦋</span><span>🍓</span><span>🌙</span>
+      </div>
+      <div class="actions">
+        <button type="button" id="btn-play" class="btn primary">Igraj</button>
+        <button type="button" id="btn-levels" class="btn">Izaberi nivo</button>
+      </div>
+      <p class="help">Klikni ili dodirni kartu da je okrenete. Na potez se računa svaki pokušaj sa dve karte.</p>
+    </section>
+
+    <section id="screen-levels" class="screen" hidden aria-labelledby="l-title">
+      <h2 id="l-title">Izaberi nivo</h2>
+      <div id="level-grid" class="level-grid"></div>
+      <div class="actions">
+        <button type="button" id="btn-levels-back" class="btn">Nazad</button>
+      </div>
+    </section>
+
+    <section id="screen-pause" class="screen dim" hidden aria-labelledby="p-title">
+      <h2 id="p-title">Pauza</h2>
+      <div class="actions">
+        <button type="button" id="btn-resume" class="btn primary">Nastavi</button>
+        <button type="button" id="btn-restart" class="btn">Pokušaj ponovo</button>
+        <button type="button" id="btn-pause-levels" class="btn">Izaberi nivo</button>
+      </div>
+    </section>
+
+    <section id="screen-win" class="screen dim" hidden aria-labelledby="w-title">
+      <h2 id="w-title">Bravo!</h2>
+      <p class="stars" id="win-stars" aria-label="Zvezdice">★★★</p>
+      <p class="lead" id="win-msg">Nivo je završen.</p>
+      <p class="stats" id="win-stats"></p>
+      <div class="actions">
+        <button type="button" id="btn-next" class="btn primary">Dalje</button>
+        <button type="button" id="btn-win-levels" class="btn">Izaberi nivo</button>
+      </div>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <a href="https://webglowstudio.github.io/Webglowstudioportfolio/">Napravio WebGlow Studio</a>
+  </footer>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
